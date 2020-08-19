@@ -13,20 +13,8 @@ class DropColumns(BaseEstimator, TransformerMixin):
         # Primeiro realizamos a cópia do dataframe 'X' de entrada
         data = X.copy()
         # Retornamos um novo dataframe sem as colunas indesejadas
+	data["NOTA_MEAN"] = data[self.columns].mean(axis=1, skipna=True)
+        data["TAREF_DIF"] = data["TAREFAS_ONLINE"]-data["FALTAS"]-data["REPROVACOES_DE"]-data["REPROVACOES_EM"]-data["REPROVACOES_GO"]-data["REPROVACOES_MF"]
         return data.drop(labels=self.columns, axis='columns')
 
-class AddMean(BaseEstimator, TransformerMixin):
-    def __init__(self, columns):
-        self.columns = columns
 
-    def fit(self, X, y=None):
-        return self
-    
-    def transform(self, X):
-        # Primeiro realizamos a cópia do dataframe 'X' de entrada
-        data = X.copy()
-        # Retornamos um novo dataframe sem as colunas indesejadas
-        #data["NOTA_MEAN"]= data[self.columns].mean(axis=1, skipna=True)
-        data["NOTA_MEAN"] = data[self.columns].mean(axis=1, skipna=True)
-        data["TAREF_DIF"] = data["TAREFAS_ONLINE"]-data["FALTAS"]-data["REPROVACOES_DE"]-data["REPROVACOES_EM"]-data["REPROVACOES_GO"]-data["REPROVACOES_MF"]
-        return data
