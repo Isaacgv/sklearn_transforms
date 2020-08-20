@@ -22,12 +22,8 @@ class DropColumns(BaseEstimator, TransformerMixin):
         # Retornamos um novo dataframe sem as colunas indesejadas
         data["NOTA_MEAN"] = data[self.add_mean].mean(axis=1, skipna=True)
 	data["TOTAL_FALTAS"] = data[self.faltas].sum(axis=1, skipna=True)
-	data["TOTAL_HRS"] = data[self.horas].sum(axis=1, skipna=True)
 	data["TOTAL_REPROV"] = data[self.reprovad].sum(axis=1, skipna=True)
-        data["TAREF_DIF"] = data["EXERCICIOS"]-data["TOTAL_FALTAS"]-data["TOTAL_REPR"]
-	data["MEDIA_HUMANAS"] = data[self.mean_humanas].sum(axis=1, skipna=True)
-	data["HRS_HUMANAS"] = data[self.hrs_humanas].sum(axis=1, skipna=True)
-	data["RP_HUMANAS"] = data[self.rp_humanas].sum(axis=1, skipna=True)
+        data["TAREF_DIF"] = data["EXERCICIOS"]-data["TOTAL_FALTAS"]-data["TOTAL_REPROV"]
         return data.drop(labels=self.columns, axis='columns')
 
 
