@@ -21,7 +21,7 @@ class DropColumns(BaseEstimator, TransformerMixin):
 	data["TOTAL_FALTAS"] = data[self.faltas].sum(axis=1, skipna=True)
 	data["TOTAL_REPROV"] = data[self.reprovad].sum(axis=1, skipna=True)
         data["TAREF_DIF"] = data["EXERCICIOS"]-data["TOTAL_FALTAS"]-data["TOTAL_REPROV"]
-	data["MEAN_H"] = data[self.reprovad].sum(axis=1, skipna=True)
+	data["MEAN_H"] = data[self.mean_humanas].sum(axis=1, skipna=True)
 	self.columns.extend(["TOTAL_FALTAS", "TOTAL_REPROV"])
         return data.drop(labels=self.columns, axis='columns')
 
