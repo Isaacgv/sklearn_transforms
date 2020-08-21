@@ -15,9 +15,15 @@ class DropColumns(BaseEstimator, TransformerMixin):
         # Primeiro realizamos a cópia do dataframe 'X' de entrada
         data = X.copy()
         # Retornamos um novo dataframe sem as colunas indesejadas
-        data["TAREF_DIF"]=data["TAREFAS_ONLINE"]-data["FALTAS"]-data["REPROVACOES_DE"]-data["REPROVACOES_EM"]-data["REPROVACOES_GO"]-data["REPROVACOES_MF"]
-        data["MEAN_H"] = data[self.mean_humanas].sum(axis=1, skipna=True)
-        data["MEAN_T"] = data[self.add_mean].sum(axis=1, skipna=True)
+        for nota in self.columns:
+            data[nota] = np.where(data[nota] > 10, 10, data[nota])
+            max_=data[nota].quantile(0.95)
+            min_=data[nota].quantile(0.05)
+            data[nota] = np.where(data[nota] > max_, max_, data[nota])
+            data[nota] = np.where(data[nota] < min_, min_, data[nota])
+
+        data["MEAN_H"] = data[self.mean_humanas].mean(axis=1, skipna=True)
+        data["MEAN_T"] = data[self.add_mean].mean(axis=1, skipna=True)
         return data.drop(labels=self.columns, axis='columns')
 
 
