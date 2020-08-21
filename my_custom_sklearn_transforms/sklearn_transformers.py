@@ -15,7 +15,7 @@ class DropColumns(BaseEstimator, TransformerMixin):
         # Primeiro realizamos a cópia do dataframe 'X' de entrada
         data = X.copy()
         # Retornamos um novo dataframe sem as colunas indesejadas
-        for nota in self.columns:
+        for nota in self.add_mean:
             data[nota] = np.where(data[nota] > 10, 10, data[nota])
             max_=data[nota].quantile(0.95)
             min_=data[nota].quantile(0.05)
